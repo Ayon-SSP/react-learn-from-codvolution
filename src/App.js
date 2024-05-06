@@ -3,6 +3,11 @@ import './App.css';
 import React, { Component } from 'react';
 import Home from './components/Home'
 import Message from './components/Message'
+import MyComponent from './components/MyComponent';
+import Welcome from './components/Welcome';
+import PostList from './components/PostList';
+import PostForm from './components/PostForm.jsx';
+
 
 class App extends Component {
   render() {
@@ -16,8 +21,12 @@ class App extends Component {
         </Home>
         <Home name="Google" heroName="AI"/>
 
-        <Message />
+        <Welcome name="Google" heroName="AI" />
 
+        <Message />
+        <MyComponent />
+        <PostList />
+        <PostForm />
       </div>
     )
 
