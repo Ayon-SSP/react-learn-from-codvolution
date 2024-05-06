@@ -30,13 +30,14 @@ class Message extends Component {
         //     }
         // )
 
+        // console.log("outSide", this.state.count)
         this.setState(prevState => ({
             message: 'Thank you for subscribing' + msd + '!',
             count: prevState.count + 1
         }), () => { console.log('callback value', this.state.count) });
-        console.log(this.state.count)
+        console.log("outSide", this.state.count)
     }
-
+    
     subscribeFive() {
         this.subscribed()
         this.subscribed()

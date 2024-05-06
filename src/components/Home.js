@@ -33,6 +33,7 @@ Shortcut for creating a functional component:
 // -or-
 
 const Home = props => {
+    // Destrcuturing props: Order doesn't matter
     const {name, heroName, children} = props
     return (
         <div>
