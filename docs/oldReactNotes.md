@@ -15,7 +15,7 @@
 1. Hello World ✅
 2. Introducing JSX ✅
 3. Rendering Elements ✅ [Link](https://legacy.reactjs.org/docs/rendering-elements.html)
-4. Components and Props
+4. Components and Props ✅
 5. State and Lifecycle
 6. Handling Events ✅
 7. Conditional Rendering
@@ -440,6 +440,59 @@ const MyComponent = ({
 
 export default MyComponent;
 ```
+SOME GOOD PRACTICES:
+```jsx
+// App.jsx
+import Avatar from './Avatar.js';
+
+function Card({ children }) {
+  return (
+    <div className="card">
+      {children}
+    </div>
+  );
+}
+
+export default function Profile() {
+  return (
+    <Card>
+      <Avatar
+        size={100}
+        person={{ 
+          name: 'Katsuko Saruhashi',
+          imageId: 'YfeOqp2'
+        }}
+      />
+    </Card>
+  );
+}
+
+
+// Avatar.jsx
+import { getImageUrl } from './utils.js';
+
+export default function Avatar({ person, size }) {
+  return (
+    <img
+      className="avatar"
+      src={getImageUrl(person)}
+      alt={person.name}
+      width={size}
+      height={size}
+    />
+  );
+}
+
+// utils.jsx
+export function getImageUrl(person, size = 's') {
+  return (
+    'https://i.imgur.com/' +
+    person.imageId +
+    size +
+    '.jpg'
+  );
+}
+```
 ### State
 1. State is used to store data that can be changed.
 2. State is **mutable**.
@@ -551,7 +604,6 @@ Importent Points:
 1. Never modify the state directly. use setState() method.
 2. State updates may be asynchronous. insted use the callback function.
 3. always make update using prevState.
-
 
 ### Props vs State
 1. props get passed to the component whereas state is managed within the component.
@@ -671,6 +723,149 @@ export default Toggle;
 ```js
 ```
 TODO: ReactJS Tutorial - 14-16
+
+
+
+
+
+### Conditional Rendering
+- Example: search engine, components.
+- `if` statements, `&&`, and `? :` operators.
+```jsx
+function Video({ video }) {
+  return (
+    <div>
+      <Thumbnail video={video} />
+      <a href={video.url}>
+        <h3>{video.title}</h3>
+        <p>{video.description}</p>
+      </a>
+      <LikeButton video={video} />
+    </div>
+  );
+}
+
+function VideoList({ videos, emptyHeading }) {
+  const count = videos.length;
+  let heading = emptyHeading;
+  if (count > 0) {
+    const noun = count > 1 ? 'Videos' : 'Video';
+    heading = count + ' ' + noun;
+  }
+  return (
+    <section>
+      <h2>{heading}</h2>
+      {videos.map(video =>
+        <Video key={video.id} video={video} />
+      )}
+    </section>
+  );
+}
+
+import { useState } from 'react';
+
+function SearchableVideoList({ videos }) {
+  const [searchText, setSearchText] = useState('');
+  const foundVideos = filterVideos(videos, searchText);
+  return (
+    <>
+      <SearchInput
+        value={searchText}
+        onChange={newText => setSearchText(newText)} />
+      <VideoList
+        videos={foundVideos}
+        emptyHeading={`No matches for “${searchText}”`} />
+    </>
+  );
+}
+
+
+import { db } from './database.js';
+import { Suspense } from 'react';
+
+async function ConferencePage({ slug }) {
+  const conf = await db.Confs.find({ slug });
+  return (
+    <ConferenceLayout conf={conf}>
+      <Suspense fallback={<TalksLoading />}>
+        <Talks confId={conf.id} />
+      </Suspense>
+    </ConferenceLayout>
+  );
+}
+
+async function Talks({ confId }) {
+  const talks = await db.Talks.findAll({ confId });
+  const videos = talks.map(talk => talk.video);
+  return <SearchableVideoList videos={videos} />;
+}
+```
+```jsx
+function UserGreeting(props) {
+  return <h1>Welcome back!</h1>;
+}
+
+function GuestGreeting(props) {
+  return <h1>Please sign up.</h1>;
+}
+
+
+function Greeting(props) {
+  const isLoggedIn = props.isLoggedIn;
+  if (isLoggedIn) {
+    return <UserGreeting />;
+  }
+  return <GuestGreeting />;
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root')); 
+// Try changing to isLoggedIn={true}:
+root.render(<Greeting isLoggedIn={false} />);
+```
+```jsx
+function Item({ name, isPacked }) {
+  return (
+    <li className="item">
+      {isPacked ? (
+        <del>
+          {name + ' ✔'}
+        </del>
+      ) : (
+        name
+      )}
+    </li>
+  );
+}
+
+export default function PackingList() {
+  return (
+    <section>
+      <h1>Sally Ride's Packing List</h1>
+      <ul>
+        <Item 
+          isPacked={true} 
+          name="Space suit" 
+        />
+        <Item 
+          isPacked={true} 
+          name="Helmet with a golden leaf" 
+        />
+        <Item 
+          isPacked={false} 
+          name="Photo of Tam" 
+        />
+      </ul>
+    </section>
+  );
+}
+```
+
+
+
+
+
+
+
 
 
 ### List Rendering: 8. Lists and Keys
@@ -886,8 +1081,7 @@ function NumberList(props) {
 
 
 ### Styling and CSS Basics
-TODO: ReactJS Tutorial - 20 - Styling and CSS Basics
-
+1. 
 
 
 
@@ -905,7 +1099,126 @@ TODO: ReactJS Tutorial - 20 - Styling and CSS Basics
 
 
 ### Basics of Form Handling
-TODO: ReactJS Tutorial - 21 - Basics of Form Handling
+1. CSS stylesheets
+2. Inline styles
+3. CSS modules
+4. CSS-in-JS libraries
+
+- myStyle.css
+```css
+.primary {
+  color: orange;
+}
+.font-xl {
+  font-size: 72px;
+}
+```
+```jsx
+import React from 'react'
+import '../stylesheets/myStyle.css'
+
+
+const StyleSheet = (props) => {
+  
+  let className = props.primary ? 'primary' : ''
+
+  return (
+    <div className={`${className} font-xl`}>
+      <h1>Stylesheet</h1>
+    </div>
+  )
+}
+
+export default StyleSheet
+
+// App.jsx
+      <StyleSheet primary={true} />
+      <StyleSheet primary={false} />
+```
+
+- Inline styles
+```jsx
+import React from 'react'
+
+const headerStyle = {
+  color: 'blue',
+  fontSize: '30px'
+}
+
+const InlineCSS = () => {
+  return (
+    <div>
+      <h1 style={{ color: 'red', fontSize: '50px' }}>Inline CSS</h1>
+      <div>
+          <p
+            style={{
+              lineHeight: 1.5,
+              fontWeight: 300,
+              marginBottom: "25px",
+              fontSize: "1.375rem"
+            }}
+          >
+            This is one of the best developer blogs on the planet! I read it daily to improve my skills.
+          </p>
+        </div>
+      <h2 style={headerStyle}>headerStyle</h2>
+    </div>
+  )
+}
+
+export default InlineCSS
+```
+
+
+```css
+/* appStyles.css */
+.error {
+  color: red;
+}
+  /* appStyles.module.css */
+.success {
+  color: green;
+}
+```
+```jsx
+import './stylesheets/appStyles.css';  // this style will apply for all the nested components.
+import styles from './stylesheets/appStyle.module.css'; // this style will apply only for the component.
+```
+```jsx
+      <h1 className="error">Error</h1>
+      <h1 className={styles.success}>Success</h1>
+```
+
+
+
+
+```jsx
+ const Div:any = styled.div`  
+            margin: 20px;  
+            border: 5px dashed green;  
+            &:hover {  
+            background-color: ${(props:any) => props.hoverColor};  
+            }  
+            `;  
+    const Title = styled.h1`  
+            font-family: Arial;  
+            font-size: 35px;  
+            text-align: center;  
+            color: palevioletred;  
+            `;  
+    const Paragraph = styled.p`  
+            font-size: 25px;  
+            text-align: center;  
+            background-Color: lightgreen;  
+            `;  
+
+```
+Have a look good practices:  [Link](https://github.com/Ayon-SSP/Portfolio_Ayon-ssp/blob/code/src/styles/Footer.js)
+
+
+
+
+
 
 ### Component Lifecycle Methods
 TODO: ReactJS Tutorial - 22 - 30 Component Lifecycle Methods.
@@ -1112,4 +1425,47 @@ useEffect(() => {
     // cleanup code
   }
 }, [count]) // dependency array
+```
+
+```jsx
+function WarningBanner(props) {
+  if (!props.warn) {
+    return null;
+  }
+
+  return (
+    <div className="warning">
+      Warning!
+    </div>
+  );
+}
+
+class Page extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {showWarning: true};
+    this.handleToggleClick = this.handleToggleClick.bind(this);
+  }
+
+  handleToggleClick() {
+    this.setState(state => ({
+      showWarning: !state.showWarning
+    }));
+  }
+
+  render() {
+    return (
+      <div>
+        <WarningBanner warn={this.state.showWarning} />
+        <button onClick={this.handleToggleClick}>
+          {this.state.showWarning ? 'Hide' : 'Show'}
+        </button>
+      </div>
+    );
+  }
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root')); 
+root.render(<Page />);
+
 ```

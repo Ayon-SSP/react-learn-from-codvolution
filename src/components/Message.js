@@ -16,6 +16,8 @@ class Message extends Component {
             message: 'Welcome Ayon',
             count: 0
         }
+
+        // this.subscribed = this.subscribed.bind(this);
     }
 
     subscribed(msd) {
