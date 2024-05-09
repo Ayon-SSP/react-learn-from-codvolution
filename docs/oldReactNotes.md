@@ -1363,11 +1363,48 @@ or can use <> </> instead of <React.Fragment> </React.Fragment>
 3. They do not have access to the lifecycle methods.
 4. They are used to improve performance.
 ```jsx
+<ParentComp />
 
+just extend the PureComponent instead of Component.
 ```
 
+### Memo:
+1. pure components for functional components.
+```jsx
+export default React.memo(MemoComp)
+```
 
+### Refs
+1. Refs are used to access the DOM nodes or React elements created in the render method.
+2. Refs are created using `React.createRef()` and attached to React elements via the ref attribute.
+3. Refs are commonly used to focus an input field or to integrate third-party DOM libraries.
+```jsx
+import React, { Component } from 'react'
 
+export class RefDemo extends Component {
+  
+  constructor(props) {
+    super(props)
+
+    this.inputRef = React.createRef()
+  }
+
+  componentDidMount() {
+    this.inputRef.current.focus()
+    console.log(this.inputRef)
+  }
+
+  render() {
+    return (
+      <div>
+        <input type="text" ref={this.inputRef}/>
+      </div>
+    )
+  }
+}
+
+export default RefDemo
+```
 
 TODO: ReactJS Tutorial - 31 - 36
 

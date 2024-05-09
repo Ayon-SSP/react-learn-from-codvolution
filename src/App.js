@@ -21,8 +21,8 @@ import styles from './stylesheets/appStyle.module.css';
 import HTTPRequests from './components/HTTPRequests';
 import GetPost from './components/GetPost';
 import Main from './LifeCycle/Main';
-
-
+import ParentComp from './LifeCycle/ParentComp';
+import RefDemo from './LifeCycle/RefDemo';
 
 class App extends Component {
 
@@ -31,8 +31,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1> Hay 🙋‍♀️</h1>
-        <Main />
-        {/* <Practice />1 */}
+
       </div>
     )
 
@@ -63,6 +62,9 @@ const Practice = () => {
   ];
   return (
     <div>
+      <RefDemo />
+      <ParentComp />
+      <Main />
       <HTTPRequests />
       <GetPost />
 
