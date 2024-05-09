@@ -619,7 +619,7 @@ const {name, heroName, children} = this.state
 ```
 
 ### Event Handlingk: 6. Handling Events
-TODO: Learn Bound and unBound Event Handlers.
+TODO: Learn Bound and unBound Event Handlers: binding with it's object like this. some methods cant be performed and which needs current object to be binded with the event handler. `this.handleClick.bind(this);`
 1. Event handlers are called when an event is triggered.
 2. it's not like will execute like a function eg. funk() this will allwase call whenever you render the component. so use `funk` instead of `funk()`.
 ```js
@@ -720,9 +720,6 @@ export default Toggle;
 
 #### Binding Event Handlers
 1. Binding in the render method. this keyword will not work.
-```js
-```
-TODO: ReactJS Tutorial - 14-16
 
 
 
@@ -1081,24 +1078,6 @@ function NumberList(props) {
 
 
 ### Styling and CSS Basics
-1. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Basics of Form Handling
 1. CSS stylesheets
 2. Inline styles
 3. CSS modules
@@ -1220,8 +1199,85 @@ Have a look good practices:  [Link](https://github.com/Ayon-SSP/Portfolio_Ayon-s
 
 
 
+
+### Basics of Form Handling
+1. The event `e` is automatically passed by JavaScript when an event handler (like `onChange` or `onSubmit`) is triggered. In this case, e represents a synthetic event from React,
+```jsx
+import React, { Component } from 'react'
+import axios from 'axios'
+class PostForm extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			userId: '',
+			title: '',
+			body: ''
+		}
+	}
+
+	changeHandler = e => {
+		this.setState({ [e.target.name]: e.target.value })
+	}
+
+	// onChange={e => setName({ ...name, firstName: e.target.value })}
+
+	submitHandler = e => {
+		e.preventDefault() // to avoid page refresh
+		console.log(this.state)
+		axios
+			.post('https://jsonplaceholder.typicode.com/posts', this.state)
+			.then(response => {
+				console.log(response)
+			})
+			.catch(error => {
+				console.log(error)
+			})
+	}
+
+	render() {
+		const { userId, title, body } = this.state
+		return (
+			<div>
+				<form onSubmit={this.submitHandler}>
+					<div>
+						<input
+							type="text"
+							name="userId"
+							value={userId}
+							onChange={this.changeHandler}
+						/>
+					</div>
+					<div>
+						<input
+							type="text"
+							name="title"
+							value={title}
+							onChange={this.changeHandler}
+						/>
+					</div>
+					<div>
+						<input
+							type="text"
+							name="body"
+							value={body}
+							onChange={this.changeHandler}
+						/>
+					</div>
+					<button type="submit">Submit</button>
+				</form>
+			</div>
+		)
+	}
+}
+
+export default PostForm
+```
+
+
+
+
 ### Component Lifecycle Methods
-TODO: ReactJS Tutorial - 22 - 30 Component Lifecycle Methods.
 **class components have lifecycle methods.**
 
 w3: [React Component Lifecycle](https://www.w3schools.com/react/react_lifecycle.asp)
@@ -1239,6 +1295,78 @@ w3: [React Component Lifecycle](https://www.w3schools.com/react/react_lifecycle.
 3. Unmounting
   1. componentWillUnmount()
 4. Error Handling
+  1. static getDerivedStateFromError()
+  2. componentDidCatch()
+
+
+
+#### Mounting
+1. A: constructor() 
+2. A: static getDerivedStateFromProps() returns null if the new props do not require any state update, method is used when state depends on changes in props over time.
+3. A: render() 
+4. B: constructor() 
+5. B: static getDerivedStateFromProps() 
+6. B: render() 
+7. B: componentDidMount() : invoked ONLY ONCE, invoked immediately after a component and all its children components have been rendered to the DOM. performe side effects: ajax calls, interact with the DOM or set up subscriptions, load data. 
+8. A: componentDidMount()    
+
+#### Updating
+1. A: static getDerivedStateFromProps() 
+2. A: shouldComponentUpdate() : return false if component should not re-render. performance optimization. 
+3. A: render() 
+4. B: static getDerivedStateFromProps()
+5. B: shouldComponentUpdate()
+6. B: render()
+7. B: getSnapshotBeforeUpdate() : invoked right before the most recently rendered output is committed to the DOM.
+8. A: getSnapshotBeforeUpdate()
+9. B: componentDidUpdate() : invoked immediately after updating occurs. perform side effects: ajax calls, interact with the DOM or set up subscriptions, load data.
+10. A: componentDidUpdate()
+
+#### Unmounting
+1. componentWillUnmount() : invoked immediately before a component is unmounted and destroyed. perform cleanup: cancel network requests, remove event listeners, cancel subscriptions.
+
+#### Error Handling
+1. static getDerivedStateFromError() : invoked after an error has been thrown by a descendant component. return a value to update state.
+2. componentDidCatch() : invoked after an error has been thrown by a descendant component. perform side effects: log the error.
+
+
+
+
+### Fragments
+1. some tags can have div tag as a parent tag. so we use fragments to avoid the extra div tag.
+```jsx
+import React from 'react'
+
+const FragmentDemo = () => {
+    return (
+        <React.Fragment>
+            <h1>Fragment Demo</h1>
+            <p>This describes the Fragment Demo component</p>
+            {
+                [1, 2, 3, 4, 5].map(num => (
+                    <React.Fragment key={num}>
+                        <h1>{num}</h1>
+                        <p>{num} is a number</p>
+                    </React.Fragment>
+                ))
+            }
+        </React.Fragment>
+    )
+}
+
+or can use <> </> instead of <React.Fragment> </React.Fragment>
+```
+
+### Pure Components
+1. Pure components are similar to functional components.
+2. They do not re-render if the state or props have not changed.
+3. They do not have access to the lifecycle methods.
+4. They are used to improve performance.
+```jsx
+
+```
+
+
 
 
 TODO: ReactJS Tutorial - 31 - 36

@@ -18,6 +18,11 @@ import './stylesheets/myStyle.css';
 import InlineCSS from './components/InlineCSS';
 import './stylesheets/appStyles.css';
 import styles from './stylesheets/appStyle.module.css';
+import HTTPRequests from './components/HTTPRequests';
+import GetPost from './components/GetPost';
+import Main from './LifeCycle/Main';
+
+
 
 class App extends Component {
 
@@ -26,7 +31,8 @@ class App extends Component {
     return (
       <div className="App">
         <h1> Hay 🙋‍♀️</h1>
-        {/* <Practice /> */}
+        <Main />
+        {/* <Practice />1 */}
       </div>
     )
 
@@ -57,6 +63,9 @@ const Practice = () => {
   ];
   return (
     <div>
+      <HTTPRequests />
+      <GetPost />
+
       <InlineCSS />
 
       <h1 className="error">Error</h1>

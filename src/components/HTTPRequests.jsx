@@ -13,7 +13,8 @@ class HTTPRequests extends Component {
 
   componentDidMount() {
     // promise based http client for the browser and node.js
-    axios.get('https://jsonplaceholder.typicode.com/posts')
+    // axios.get('https://jsonplaceholder.typicode.com/posts')
+    axios.get('https://jsonplaceholder.typicode.com/posts?_page=1&_per_page=25')
       .then(response => {
         console.log(response)
         this.setState({ posts: response.data })

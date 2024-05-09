@@ -15,6 +15,8 @@ class PostForm extends Component {
 		this.setState({ [e.target.name]: e.target.value })
 	}
 
+	// onChange={e => setName({ ...name, firstName: e.target.value })}
+
 	submitHandler = e => {
 		e.preventDefault() // to avoid page refresh
 		console.log(this.state)
