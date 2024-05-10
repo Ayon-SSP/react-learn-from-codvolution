@@ -23,6 +23,11 @@ import GetPost from './components/GetPost';
 import Main from './LifeCycle/Main';
 import ParentComp from './LifeCycle/ParentComp';
 import RefDemo from './LifeCycle/RefDemo';
+import ContextMain from './Context/ContextMain';
+import { UserProvider } from './Context/userContext';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HooksDocs from './Hooks/HooksDocs';
+import ClassCounterOne from './Hooks/ClassCounterOne';
 
 class App extends Component {
 
@@ -30,7 +35,16 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1> Hay 🙋‍♀️</h1>
+        <h1> Hay 🙋‍♂️</h1>
+
+        <HooksDocs />
+        <ClassCounterOne />
+
+
+
+
+
+
 
       </div>
     )
@@ -62,6 +76,24 @@ const Practice = () => {
   ];
   return (
     <div>
+      <BrowserRouter>
+        <UserProvider value="Ayon">
+          <ContextMain />
+        </UserProvider>
+        <Routes>
+          <Route path="/user" element={<Practice />} />
+          {/* now create a nested route's with the endpoint should be /user/delete, /user/create, /user/update */}
+          <Route path="/user/delete" element={<h1>Delete Page</h1>} />
+          <Route path="/user/create" element={<h1>Create Page</h1>} />
+          <Route path="/user/update" element={<h1>Update Page</h1>} />
+          <Route path="/user/*" element={<h1>Not Found</h1>} />
+          <Route path="/error" element={<h1>Error Page</h1>} />
+        </Routes>
+      </BrowserRouter>
+
+
+
+
       <RefDemo />
       <ParentComp />
       <Main />

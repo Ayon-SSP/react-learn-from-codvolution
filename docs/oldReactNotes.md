@@ -1,6 +1,10 @@
 # 📘 React
 > [YT Playlist](https://youtube.com/playlist?list=PLC3y8-rFHvwgg3vaYJgHGnModB54rxOk3&si=5yO85s7ERDZBhLOv)
 
+Node Fundamentals: 
+```bash
+npm init -y <or> --yes
+```
 
 
 ## React Docs:
@@ -619,7 +623,7 @@ const {name, heroName, children} = this.state
 ```
 
 ### Event Handlingk: 6. Handling Events
-TODO: Learn Bound and unBound Event Handlers: binding with it's object like this. some methods cant be performed and which needs current object to be binded with the event handler. `this.handleClick.bind(this);`
+Learn Bound and unBound Event Handlers: binding with it's object like this. some methods cant be performed and which needs current object to be binded with the event handler. `this.handleClick.bind(this);`
 1. Event handlers are called when an event is triggered.
 2. it's not like will execute like a function eg. funk() this will allwase call whenever you render the component. so use `funk` instead of `funk()`.
 ```js
@@ -1378,41 +1382,37 @@ export default React.memo(MemoComp)
 1. Refs are used to access the DOM nodes or React elements created in the render method.
 2. Refs are created using `React.createRef()` and attached to React elements via the ref attribute.
 3. Refs are commonly used to focus an input field or to integrate third-party DOM libraries.
+4. you can also use callback refs.
+5. can also ref to a child component.
+
 ```jsx
-import React, { Component } from 'react'
-
-export class RefDemo extends Component {
-  
-  constructor(props) {
-    super(props)
-
-    this.inputRef = React.createRef()
-  }
-
-  componentDidMount() {
-    this.inputRef.current.focus()
-    console.log(this.inputRef)
-  }
-
-  render() {
-    return (
-      <div>
-        <input type="text" ref={this.inputRef}/>
-      </div>
-    )
-  }
-}
-
-export default RefDemo
+<RefDemow />
 ```
+##### ref Forwarding Ref
+> Refere the video no. 30
+1. ref is forwarded to the child component from the parent component.
 
-TODO: ReactJS Tutorial - 31 - 36
+### Portals & Error Boundaries
+TODO: ReactJS Tutorial - 31 - 32
+### Higher Order Components
+TODO: ReactJS Tutorial - 33 - 35
+### Render Props
+TODO: ReactJS Tutorial - 36 - 37
 
 ### Context
 componentA -> passPorpec -> componentB -> passPorpec -> componentC ...
 so we use context API to pass the props to the component without passing the props to the parent component.
-TODO: ReactJS Tutorial - 37-40
+- Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+```jsx 
+// userContext.js 
+import React from 'react'
 
+const UserContext = React.createContext() // for default value  you can send parameter. React.createContext('default value')
+const UserProvider = UserContext.Provider
+const UserConsumer = UserContext.Consumer
+
+export { UserProvider, UserConsumer }
+```
 
 
 
@@ -1541,22 +1541,24 @@ export default PostForm
 
 ### React Hooks
 > [React Hooks](https://blog.logrocket.com/react-hooks-cheat-sheet-solutions-common-problems/)
-
-TODO: React Hooks Tutorial 1 - complte
-
+1. can't use hooks inside the class components.
+2. only call hooks at the top level.
+3. Dont call hooks inside loops, conditions or nested functions.
+4. 
+#### useState Hook
 1. insted of setCount(count + 1) -> setCount(prevCount => prevCount + 1)
 
 ```js
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 const [count, setCount] = useState(0);
-useState(count + 1);
-useState(prevCount => prevCount + 1)
+setCount(count + 1);
+setCount(prevCount => prevCount + 1)
 
 
 
 const [name, setName] = useState({ firstName: '', seconeName: '' })
 // onChange={e => setName({ e.target.keys: e.target.value })} dont know weather it works.
-onChange={e => setName({ ...name, firstName: e.target.value })}
+onChange={e => setName({ ...name, firstName: e.target.value })} // last parameter will overwrite the first parameter.
 
 
 const [items, setItems] = useState([])
@@ -1570,7 +1572,6 @@ const addItem = () =>{
 }
 
 onClick={addItem}
-
 ```
 
 #### useEffect Hook
@@ -1632,5 +1633,120 @@ class Page extends React.Component {
 
 const root = ReactDOM.createRoot(document.getElementById('root')); 
 root.render(<Page />);
-
 ```
+
+
+
+
+
+## Redux
+```bash
+npm install redux react-redux
+```
+
+Redux: 
+store -> action -> reducer
+
+Three Principles:
+1. Single source of truth
+2. State is read-only
+3. Changes are made with pure functions
+
+```js
+// store.js
+import { createStore } from 'redux'
+import cakeReducer from './cake/cakeReducer'
+
+const store = createStore(cakeReducer)
+
+export default store
+
+// cake/cakeReducer.js
+import { BUY_CAKE } from './cakeTypes'
+
+const initialState = {
+  numOfCakes: 10
+}
+
+const cakeReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case BUY_CAKE:
+      return {
+        ...state,
+        numOfCakes: state.numOfCakes - 1
+      }
+    default:
+      return state
+  }
+}
+
+export default cakeReducer
+
+// cake/cakeTypes.js
+export const BUY_CAKE = 'BUY_CAKE'
+
+// cake/cakeActions.js
+import { BUY_CAKE } from './cakeTypes'
+
+export const buyCake = () => {
+  return {
+    type: BUY_CAKE
+  }
+}
+
+// cake/CakeContainer.js
+import React from 'react'
+import { connect } from 'react-redux'
+import { buyCake } from './cakeActions'
+
+function CakeContainer(props) {
+  return (
+    <div>
+      <h2>Number of cakes - {props.numOfCakes}</h2>
+      <button onClick={props.buyCake}>Buy Cake</button>
+    </div>
+  )
+}
+
+const mapStateToProps = state => {
+  return {
+    numOfCakes: state.numOfCakes
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    buyCake: () => dispatch(buyCake())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CakeContainer)
+
+// App.js
+import React from 'react'
+import { Provider } from 'react-redux'
+import store from './redux/store'
+import CakeContainer from './redux/cake/CakeContainer'
+
+function App() {
+  return (
+    <Provider store={store}>
+      <div>
+        <CakeContainer />
+      </div>
+    </Provider>
+  )
+}
+
+export default App
+```
+[Video Link for better understanding](https://youtu.be/_KhGdZEWC4c?list=PLC3y8-rFHvwheJHvseC3I0HuYI2f46oAK&t=294)
+
+JavaScript App -> Action -> Reducer -> Store -> JavaScript App
+           dispatch()    
+
+
+Done 1- 4 videos Codevolution Redux playlist.
