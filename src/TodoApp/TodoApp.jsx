@@ -8,7 +8,7 @@ import PageTitle from './components/PageTitle';
 import styles from './styles/modules/app.module.scss';
 import { Toaster, toast } from 'react-hot-toast';
 import Button from './components/Button';
-// import TodoList from './components/TodoList';
+import SelectButton from './components/SelectButton';
 
 export class TodoApp extends Component {
   render() {
@@ -19,20 +19,14 @@ export class TodoApp extends Component {
           <PageTitle>TODO List</PageTitle>
 
           <div className={styles.app_wrapper}>
-            <h1>temp</h1>
+            <h1>Container styles.app_wrapper</h1>
 
 
           </div>
 
-
           {/* <Button variant = 'primary' onClick={() => {toast.error('Please enter a title');}}> */}
-          <Button onClick={() => {toast.success('Please enter a title');}}>
-            Show Toast
-          </Button>
-          <Button variant='secondary' onClick={() => {toast.error('Please enter a title');}}>
-            Show Toast
-          </Button>
-          
+          <BuildingComponents />
+
           <Toaster
             position="bottom-right"
             toastOptions={{
@@ -42,13 +36,38 @@ export class TodoApp extends Component {
             }}
           />
 
-
         </div>
-
-
       </>
     )
   }
+}
+
+const BuildingComponents = () => {
+  return (
+    <div>
+      <Button onClick={() => { toast.success('Please enter a title'); }}>
+        Show Toast
+      </Button>
+      <Button variant='secondary' onClick={() => { toast.error('Please enter a title'); }}>
+        Show Toast
+      </Button>
+
+      <br/>
+      <br/>
+      <br/>
+      <SelectButton
+        id="status"
+        // onChange={(e) => updateFilter(e)}
+        // value={filterStatus}
+      >
+        <option value="all">All</option>
+        <option value="incomplete">Incomplete</option>
+        <option value="complete">Completed</option>
+      </SelectButton>
+
+
+    </div>
+  )
 }
 
 export default TodoApp

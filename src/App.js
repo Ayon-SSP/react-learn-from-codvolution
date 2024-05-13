@@ -28,9 +28,8 @@ import { UserProvider } from './Context/userContext';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HooksDocs from './Hooks/HooksDocs';
 import ClassCounterOne from './Hooks/ClassCounterOne';
-import Flex from './components/CSSFlex/Flex';
+// import Flex from './components/CSSFlex/Flex';
 import TodoApp from './TodoApp/TodoApp';
-import AppHeader from './TodoApp/components/AppHeader';
 
 
 
@@ -48,7 +47,6 @@ class App extends Component {
 
 
         <TodoApp />
-        <AppHeader />
 
 
 
