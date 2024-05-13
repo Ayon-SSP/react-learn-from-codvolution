@@ -1082,6 +1082,8 @@ function NumberList(props) {
 
 
 ### Styling and CSS Basics
+
+> 1. Can use [ui.shadcn](https://ui.shadcn.com/docs/components/calendar)
 1. CSS stylesheets
 2. Inline styles
 3. CSS modules
@@ -1201,7 +1203,16 @@ Have a look good practices:  [Link](https://github.com/Ayon-SSP/Portfolio_Ayon-s
 
 
 
-
+#### _mixins.scss
+- mixins are used to define styles that can be reused throughout the application.
+**Eg:**
+```scss
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
 
 
 ### Basics of Form Handling

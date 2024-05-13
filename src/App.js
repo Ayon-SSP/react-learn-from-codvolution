@@ -28,6 +28,13 @@ import { UserProvider } from './Context/userContext';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HooksDocs from './Hooks/HooksDocs';
 import ClassCounterOne from './Hooks/ClassCounterOne';
+import Flex from './components/CSSFlex/Flex';
+import TodoApp from './TodoApp/TodoApp';
+import AppHeader from './TodoApp/components/AppHeader';
+
+
+
+
 
 class App extends Component {
 
@@ -37,8 +44,12 @@ class App extends Component {
       <div className="App">
         <h1> Hay 🙋‍♂️</h1>
 
-        <HooksDocs />
-        <ClassCounterOne />
+        {/* <Flex /> */}
+
+
+        <TodoApp />
+        <AppHeader />
+
 
 
 
@@ -76,6 +87,9 @@ const Practice = () => {
   ];
   return (
     <div>
+      <HooksDocs />
+      <ClassCounterOne />
+
       <BrowserRouter>
         <UserProvider value="Ayon">
           <ContextMain />
@@ -90,9 +104,6 @@ const Practice = () => {
           <Route path="/error" element={<h1>Error Page</h1>} />
         </Routes>
       </BrowserRouter>
-
-
-
 
       <RefDemo />
       <ParentComp />
