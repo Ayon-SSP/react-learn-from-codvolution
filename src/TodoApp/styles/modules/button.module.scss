@@ -10,6 +10,14 @@
 	text-transform: capitalize;
 	cursor: pointer;
 	overflow: hidden;
+
+	&:hover {
+		// color: var(--white);
+		// background-color: var(--primaryPurple);
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+		transition: all 0.3s ease;
+	}
+
 	&__select {
 		color: var(--black-2);
 		font-family: Poppins;

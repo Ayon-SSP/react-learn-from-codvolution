@@ -1663,6 +1663,28 @@ Three Principles:
 2. State is read-only
 3. Changes are made with pure functions
 
+- A single store that holds the entire state of the application.
+
+Action:
+- an action is a plain JavaScript object that describes the change.
+- and contains the type of action and the payload.
+eg. 
+```js
+{
+  type: 'BUY_CAKE',
+  info: 'First redux action',
+  payload: res.data
+}
+
+Reducers:
+- Specify how the apps state changes in response to actions sent to the store.
+const reduxMethos => (previousState, action) return newState
+
+dispatch(action) -> reducer -> store -> state -> UI
+```
+
+
+
 ```js
 // store.js
 import { createStore } from 'redux'
@@ -1761,3 +1783,74 @@ JavaScript App -> Action -> Reducer -> Store -> JavaScript App
 
 
 Done 1- 4 videos Codevolution Redux playlist.
+
+
+### Working of Redux
+> Complete code: [Link](https://github.com/gopinav/React-Redux-Tutorials/blob/master/redux-demo/index.js) with multiple reducers.
+```js
+const BUY_CAKE = 'BUY_CAKE'
+const BUY_ICECREAM = 'BUY_ICECREAM'
+
+
+function buyCake () {
+  return {
+    type: BUY_CAKE,
+    info: 'First redux action'
+  }
+}
+
+function buyIceCream () {
+  return {
+    type: BUY_ICECREAM
+  }
+}
+
+const initialState = {
+  numOfCakes: 10,
+  numOfIceCreams: 20
+}
+
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case BUY_CAKE:
+      return {
+        ...state,
+        numOfCakes: state.numOfCakes - 1
+      }
+    case BUY_ICECREAM:
+      return {
+        ...state,
+        numOfIceCreams: state.numOfIceCreams - 1
+      }
+    default:
+      return state
+  }
+}
+
+const store = createStore(reducer)
+console.log('Initial state', store.getState())
+const unsubscribe = store.subscribe(() => console.log('Updated state', store.getState()))
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+store.dispatch(buyIceCream())
+unsubscribe()
+```
+
+- Holds application state
+- Allows access to state via `getState()`
+- Allows state to be updated via `dispatch(action)`
+- Registers listeners via `subscribe(listener)`
+- Handles unregistering of listeners via the function returned by `subscribe(listener)`
+
+
+
+
+
+
+
+
+
+
+
+

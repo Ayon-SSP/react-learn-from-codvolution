@@ -9,24 +9,19 @@ import styles from './styles/modules/app.module.scss';
 import { Toaster, toast } from 'react-hot-toast';
 import Button from './components/Button';
 import SelectButton from './components/SelectButton';
-
+import AppHeader from './components/AppHeader';
 export class TodoApp extends Component {
   render() {
     return (
       <>
         <div className="container">
-
           <PageTitle>TODO List</PageTitle>
-
-          <div className={styles.app_wrapper}>
-            <h1>Container styles.app_wrapper</h1>
+          <div className={styles.app__wrapper}>
+            <AppHeader />
 
 
           </div>
-
-          {/* <Button variant = 'primary' onClick={() => {toast.error('Please enter a title');}}> */}
-          <BuildingComponents />
-
+          {/* <BuildingComponents /> */}
           <Toaster
             position="bottom-right"
             toastOptions={{
@@ -45,6 +40,7 @@ export class TodoApp extends Component {
 const BuildingComponents = () => {
   return (
     <div>
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><hr />
       <Button onClick={() => { toast.success('Please enter a title'); }}>
         Show Toast
       </Button>
@@ -52,19 +48,19 @@ const BuildingComponents = () => {
         Show Toast
       </Button>
 
-      <br/>
-      <br/>
-      <br/>
+      <br />
+      <br />
+      <br />
+
       <SelectButton
         id="status"
-        // onChange={(e) => updateFilter(e)}
-        // value={filterStatus}
+      // onChange={(e) => updateFilter(e)}
+      // value={filterStatus}
       >
         <option value="all">All</option>
         <option value="incomplete">Incomplete</option>
         <option value="complete">Completed</option>
       </SelectButton>
-
 
     </div>
   )
